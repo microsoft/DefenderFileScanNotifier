@@ -1,14 +1,50 @@
-# Project
+# Introduction
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+The components specified in this repository helps you in consuming [Azure Defender's file malware scan](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-malware-scan) status efficiently to the connected clients (UI Web app) in a push based architecture.
 
-As the maintainer of this project, please make a few updates:
+File uploads of Multiple features within the application are uploaded to Single DMZ (Demelitarized Container) Secured container which acts as single point of contact for file uploads.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+- DMZ Container is enabled with Defender capability to scan presence of malware in every file upload.
+- Defender service sends event to event grid service to communicate the file scan status.
+
+The generic bootstrap solution has following components to facilitate the end-to-end experience from file upload process of multiple features to file scan status communication to connected client (Web UI)
+
+<strong>Bicep Infra files</strong> : Spin up required resources responsible for solution consumption in seconds.<br />
+
+<strong>SignalR Negotiate Azure function</strong> : Facilitates secured way of establishing connection with signalR instance in a serverless methodology by exchanging connection string and short lived authentication code.<br />
+
+<strong>SignalRWrapper NPM Package</strong>:
+- The Generic npm package takes care of establishing connection handshake process with Azure SignalR Service.
+- Registers event listeners on interested topics.
+- Clients can configure event handlers responsible for processing file malware status 
+- Connection cleanup.
+
+<strong>Generic File Scan Status Checker Azure function</strong> : <br />
+- File scan status is sent to Event grid which will trigger the File Scan status checker function
+- File Scan Status Checker function sends the scan status to signalR hub.
+- and the status checker function moves the file to respective feature container if the status is non-malicious result.
+- or else if the status is Malicious then the file is deleted from the DMZ container and appropriate status is sent to signalR hub.
+
+### Key Notations
+Client application has to upload file with following path to the DMZ container.
+> <identifier>/<attachmentType>/<filename>.<extension>
+- <strong>identifier</strong> can be a unique identifier for user within the client system.
+- <strong>attachmentType</strong> can be related to feature name for which the attachment belongs to, so that in later section we will see the signification of this field.
+- <strong><filename>.extension</strong> Uploaded file name with an extension.
+
+Lets take an example of typical HR system.
+
+Resume Upload use-case:<br />
+   File Path: 12345/resume/AlexResume.pdf<br />
+   Event Name: 12345_resume_AlexResume.pdf<br />
+
+Expense upload use-case file path: <br />
+   File Path: 12345/expense/hotelreceipt.pdf<br />
+   Event Name: 12345_expense_hotelreceipt.pdf<br />
+
+Above notation has to be followed by client during file upload process and the event name will be derived based on file path by the file status checker and the status is pushed to signalR server using the computed event name based on file path of the uploaded blob.
+
+Client has to listen to this computed event name for their respective feature specific file scan status.
 
 ## Contributing
 
