@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "featureName": {
+            "value": "dfsn"
+        },
+        "subFeatureNameForKeyVault": {
+            "value": "kv"
+        },
+        "kvKeyPermissionList": {
+            "value": [
+                "get",
+                "list",
+                "update",
+                "create"
+            ]
+        },
+        "kvSecretPermissionList": {
+            "value": [
+                "get",
+                "list",
+                "set"
+            ]
+        },
+        "kvCertificatePermissionList": {
+            "value": [
+                "get",
+                "list"
+            ]
+        },
+        "keyVaultCreateMode": {
+            "value": "default"
+        },
+        "deploymentLocation": {
+            "value": "westus2"
+        },
+        "environment": {
+            "value": "prod"
+        },
+        "servicesKeyPermissionList": {
+            "value": [
+                "get",
+                "list"
+            ]
+        },
+        "servicesSecretPermissionList": {
+            "value": [
+                "get",
+                "list"
+            ]
+        },
+        "servicesCertificatePermissionList": {
+            "value": [
+                "get",
+                "list"
+            ]
+        },
+        "featureNameForAppConfig": {
+            "value": "common"
+        },
+        "applicationType": {
+            "value": "service"
+          },
+          "subFeatureName": {
+            "value": "common"
+          },
+          "logAnalyticsWorkspaceSKU": {
+            "value": "PerGB2018"
+          },
+          "logAnalyticsRetentionInDays": {
+            "value": 90
+          },
+          "shortLocation": {
+            "value": "westus2"
+        }
+    }
+}
