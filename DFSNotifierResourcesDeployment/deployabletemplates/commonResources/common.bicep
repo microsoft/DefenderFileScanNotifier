@@ -41,7 +41,7 @@ var tagsObject = {
 
 var keyvaultAccessObjectIds = [
   {
-    'key': '09bd4c89-9d55-4cb3-93ea-66f292366a48' //TODO: Service Principal Object ID for the service principal that will be used to access the keyvault OR the object ID of the user that will be used to access the keyvault
+    'key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' //TODO: Service Principal Object ID for the service principal that will be used to access the keyvault OR the object ID of the user that will be used to access the keyvault
     'type': 'system-principal'
   }  
 ]
