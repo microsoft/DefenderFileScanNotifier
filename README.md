@@ -2,6 +2,9 @@
 
 The components specified in this repository helps you in consuming [Azure Defender's file malware scan](https://learn.microsoft.com/en-us/azure/defender-for-cloud/defender-for-storage-malware-scan) status efficiently to the connected clients (UI Web app) in a push based architecture.
 
+# Architecture Diagram
+<img width="725" alt="image" src="https://github.com/microsoft/DefenderFileScanNotifier/assets/145007993/9fee731a-458c-4e32-8656-4b7eb3d3868b">
+
 File uploads of Multiple features within the application are uploaded to Single DMZ (Demelitarized Container) Secured container which acts as single point of contact for file uploads.
 
 - DMZ Container is enabled with Defender capability to scan presence of malware in every file upload.
