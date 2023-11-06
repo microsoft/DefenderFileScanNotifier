@@ -1,5 +1,5 @@
 param subFeatureName string
-
+param featureName string
 @allowed([
   'westus'
   'westus2'
@@ -36,7 +36,7 @@ param tagsObject object
 param logAnalyticsWorkspaceSKU string
 param retentionInDays int
 
-var logAnalyticsName = environment != 'prod' ? 'dfsn-${subFeatureName}${applicationType}-law-${deploymentLocation}-${environment}' : 'dfsn-${subFeatureName}${applicationType}-law-${deploymentLocation}'
+var logAnalyticsName = environment != 'prod' ? '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}-${environment}' : '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}'
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
   name: logAnalyticsName
