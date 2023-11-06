@@ -1,7 +1,9 @@
 param featureName string
+param subFeatureNameForKeyVault string
 @allowed([
   'westus2'
   'southeastasia'
+  'eastus'
 ])
 param deploymentLocation string
 @allowed([
@@ -22,8 +24,8 @@ param serviceKeyPermissionList array = []
 param serviceSecretPermissionList array = []
 param serviceCertificatePermissionList array = []
 
-var envBasedName = environment != 'prod' ? 'dfsn-${featureName}-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : 'dfsn-${featureName}-${empty(shortLocation) ? deploymentLocation : shortLocation}'
-var keyVaultName_var = length(envBasedName) > 24 ? 'dfsn-${featureName}-${environment}' : envBasedName
+var envBasedName = environment != 'prod' ? '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+var keyVaultName_var = length(envBasedName) > 24 ? '${featureName}-${subFeatureNameForKeyVault}-${environment}' : envBasedName
 var tenantId = subscription().tenantId
 
 resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {

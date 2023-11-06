@@ -1,4 +1,5 @@
 param featureName string
+param subFeatureName string
 @allowed([
   'westus2'
   'southeastasia'
@@ -15,7 +16,7 @@ param environment string
 param tagsObject object
 param shortLocation string = ''
 
-var appConfigurationName = environment != 'prod' ? 'dfsn-${featureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : 'dfsn-${featureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+var appConfigurationName = environment != 'prod' ? '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}'
 
 resource appConfiguration 'Microsoft.AppConfiguration/configurationStores@2020-06-01' = {
   name: appConfigurationName

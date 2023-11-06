@@ -4,7 +4,7 @@ param appConfigReadRoleDefName string = ''
 param skuName string = ''
 param skuTier string = ''
 param roleExists bool = false
-
+param featureName string
 @allowed([
   'ppe'
   'prod'
@@ -15,7 +15,7 @@ param functionAppName string
 param tags object
 param appServicePlanName string
 param shortLocation string = ''
-var functionName = env != 'prod' ? 'dfsn-${functionAppName}-${empty(shortLocation) ? location : shortLocation}-${env}' : 'dfsn-${functionAppName}-${empty(shortLocation) ? location : shortLocation}'
+var functionName = env != 'prod' ? '${featureName}-${functionAppName}-${empty(shortLocation) ? location : shortLocation}-${env}' : '${featureName}-${functionAppName}-${empty(shortLocation) ? location : shortLocation}'
 
 module funcAppServicePlan './appServicePlan.bicep' = {
   name: appServicePlanName

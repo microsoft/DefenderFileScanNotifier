@@ -1,6 +1,7 @@
 @allowed([
   'westus2'
   'southeastasia'
+  'eastus'
 ])
 param deploymentLocation string
 
@@ -38,19 +39,14 @@ var tagsObject = {
   'FeatureName': featureName
   'Env': envString
 }
-
 var keyvaultAccessObjectIds = [
-  {
-    'key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' //TODO: Service Principal Object ID for the service principal that will be used to access the keyvault OR the object ID of the user that will be used to access the keyvault
-    'type': 'system-principal'
-  }  
 ]
 
 module keyvaultDeployment '../../modules/configurationstore/keyVault.bicep' = {
   name: 'keyvault'
   params: {
     tagsObject: tagsObject
-    featureName: subFeatureNameForKeyVault
+    subFeatureNameForKeyVault: subFeatureNameForKeyVault
     deploymentLocation: deploymentLocation
     environment: environment
     accessPolicyObjectIds: keyvaultAccessObjectIds
@@ -62,6 +58,7 @@ module keyvaultDeployment '../../modules/configurationstore/keyVault.bicep' = {
     serviceCertificatePermissionList: servicesCertificatePermissionList
     createMode: keyVaultCreateMode
     shortLocation:shortLocation
+    featureName:featureName
   }
 }
 
@@ -69,7 +66,8 @@ module appConfigurationDeployment '../../modules/configurationstore/appConfigura
   name: 'appConfiguration'
   params: {
     tagsObject: tagsObject
-    featureName: featureNameForAppConfig
+    featureName: featureName
+    subFeatureName:featureNameForAppConfig
     deploymentLocation: deploymentLocation
     environment: environment
     shortLocation:shortLocation
@@ -86,5 +84,6 @@ module logAnalyticsWorkplace '../../modules/monitoring/loganalyticsworkspace.bic
     tagsObject: tagsObject
     logAnalyticsWorkspaceSKU: logAnalyticsWorkspaceSKU
     retentionInDays: logAnalyticsRetentionInDays
+    featureName:featureName
   }
 }

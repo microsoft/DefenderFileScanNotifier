@@ -1,4 +1,5 @@
 param subFeatureName string
+param featureName string
 @allowed([
   'westus'
   'westus2'
@@ -27,7 +28,7 @@ param tagsObject object
 param workspaceRescId string = ''
 param preferredAppInsightsName string=''
 param shortLocation string = ''
-var appInsightsName = environment != 'prod' ? 'dfsn-${subFeatureName}${applicationType}-ai-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : 'dfns-${subFeatureName}${applicationType}-ai-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+var appInsightsName = environment != 'prod' ? '${featureName}-${subFeatureName}${applicationType}-ai-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureName}${applicationType}-ai-${empty(shortLocation) ? deploymentLocation : shortLocation}'
 
 resource appInsightsComponent 'Microsoft.Insights/components@2020-02-02' = {
   name: !empty(preferredAppInsightsName) ? preferredAppInsightsName : appInsightsName

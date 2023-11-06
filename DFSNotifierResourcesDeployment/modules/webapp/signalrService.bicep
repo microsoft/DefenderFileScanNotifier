@@ -1,6 +1,7 @@
 
 param name string
 param subFeatureName string
+param featureName string
 param signalrkvconnectionSecretName string=''
 param location string
 @description('The number of SignalR Unit.')
@@ -21,13 +22,20 @@ param capacity int = 1
   'Standard_S1'
   'Premium_P1'
 ])
-param pricingTier string = 'Standard_S1'
+param pricingTier string = 'Free_F1'
+
+@allowed([
+  'Default'
+  'Serverless'
+  'Classic'
+])
+param serviceMode string = 'Serverless'
 
 param tags object
 
 param keyVaultName string=''
 
-var kvSignalSecretName=empty(signalrkvconnectionSecretName)?'dfsn-${subFeatureName}-azuresignalrconnectionstring1':signalrkvconnectionSecretName
+var kvSignalSecretName=empty(signalrkvconnectionSecretName)?'${featureName}-${subFeatureName}-azuresignalrconnectionstring':signalrkvconnectionSecretName
 resource signalR 'Microsoft.SignalRService/signalR@2022-02-01' = {
   name: name
   location: location
@@ -40,6 +48,12 @@ resource signalR 'Microsoft.SignalRService/signalR@2022-02-01' = {
   identity: {
     type: 'SystemAssigned'
   }
+    properties: {
+        features: [      {
+        flag: 'ServiceMode'
+        value: serviceMode
+      }]
+    }
 }
 
 module setFunctionAzureFileConnStringToKV '../../modules/configurationstore/setSecret.bicep' = if (!empty(keyVaultName)) {

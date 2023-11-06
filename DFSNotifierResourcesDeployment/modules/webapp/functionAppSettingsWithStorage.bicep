@@ -8,6 +8,7 @@ param keyVaultName string
 param appConfigName string
 param blobContainers array = []
 param allowedOrigins array = []
+param signalrkvconnectionSecretName string
 param keyVaultRGName string = ''
 param functionAppRGName string = ''
 var functionAppScopeRG = empty(functionAppRGName) ? empty(keyVaultRGName) ? resourceGroup() : resourceGroup(keyVaultRGName) :  resourceGroup(functionAppRGName)
@@ -96,6 +97,9 @@ var generalSettings = {
   'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING': '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=${fnAzureFileConnStringKey})'
   'APPINSIGHTS_INSTRUMENTATIONKEY': appInsightKey
   'WEBSITE_RUN_FROM_PACKAGE': '1'
+  'AzureSignalRHubName':'FileUploadHub'
+  'AzureSignalRUserHeader':'{headers.userid}'
+  'AzureSignalRConnectionString':'@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=${signalrkvconnectionSecretName})'
 }
 
 

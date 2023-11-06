@@ -1,4 +1,5 @@
-param subFeatureName string
+﻿param subFeatureName string
+param featureName string
 param blobContainers array = []
 @allowed([
   'westus'
@@ -40,7 +41,7 @@ param storageAccountSKU string
 ])
 param executionEnv string
 param preferreddStorageAccountName string = ''
-var storageAccountName = environment != 'prod' ? 'dfsn${subFeatureName}${applicationType}sa${deploymentLocation}${environment}' : 'dfsn${subFeatureName}${applicationType}sa${deploymentLocation}'
+var storageAccountName = environment != 'prod' ? '${featureName}${subFeatureName}${applicationType}sa${deploymentLocation}${environment}' : '${featureName}${subFeatureName}${applicationType}sa${deploymentLocation}'
 
 var storageAccountNameVar = executionEnv != 'prod' ? storageAccountName : '${storageAccountName}prd'
 var finalStorageAccountName=(preferreddStorageAccountName != '') ? preferreddStorageAccountName : storageAccountNameVar
@@ -92,6 +93,25 @@ resource blobServicesAllowOrigins 'Microsoft.Storage/storageAccounts/blobService
 resource containers 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = [for container in blobContainers: {
   name: '${storageAccount.name}/default/${container}'
 }]
+
+resource defenderForStorageSettings 'Microsoft.Security/DefenderForStorageSettings@2022-12-01-preview' = {
+  name: 'current'
+  scope: storageAccount
+  properties: {
+    isEnabled: true
+    malwareScanning: {
+      onUpload: {
+        isEnabled: true
+        capGBPerMonth: 5000
+      }
+    }
+    sensitiveDataDiscovery: {
+      isEnabled: true
+    }
+    overrideSubscriptionLevelSettings: false
+  }
+}
+
 
 output storageAccountId string = storageAccount.id
 output storageAccountName string = storageAccount.name
