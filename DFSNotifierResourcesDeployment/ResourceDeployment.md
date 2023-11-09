@@ -1,4 +1,5 @@
-								**DefenderFileScanNotifier Resource Deployment Guidance**
+
+							****DefenderFileScanNotifier Resource Deployment Guidance****
 
 As part of resource deployments, we have two bicep files as mentioned below 
 1.	common.bicep
