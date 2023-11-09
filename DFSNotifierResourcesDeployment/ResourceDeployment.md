@@ -6,31 +6,36 @@ As part of resource deployments, we have two bicep files as mentioned below
 2.	malwarescanner.bicep
 
 **common bicep file**
-Parameter file: DFSNotifierResourcesDeployment\deployabletemplates\commonResources\parameters\common-westus2.parameters.json
-Bicep File:
-DFSNotifierResourcesDeployment\deployabletemplates\commonResources\common.bicep
-•	It will create these resource types: App Configuration, Key Vault & Log Analytics workspace.
-•	Please find naming conventions related parameters to avoid deployment errors
-featureName is important parameter and used by all resource types
-o	**App Configuration:** In Parameter file please update featureName as per your project requirement or go with any available name.
 
-Final name will be decided by appConfiguration.bicep module file as mentioned below,
-var appConfigurationName = environment != 'prod' ? '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+	**Parameter file**: DFSNotifierResourcesDeployment\deployabletemplates\commonResources\parameters\common-westus2.parameters.json
 
-Example: dfn-common-configuration-westus2
-Refer App configuration resource naming rules: 
-https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.AppConfig.Name/
+	**Bicep File**: DFSNotifierResourcesDeployment\deployabletemplates\commonResources\common.bicep
 
-o	**Key Vault**:
-Module file: DFSNotifierResourcesDeployment\modules\configurationstore\keyVault.bicep
-var envBasedName = environment != 'prod' ? '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+	• It will create these resource types: App Configuration, Key Vault & Log Analytics workspace.
+	• Please find naming conventions related parameters to avoid deployment errors
+	
+ 	featureName is important parameter and used by all resource types
+	o**App Configuration:** In Parameter file please update featureName as per your project requirement or go with any available name.
 
-var keyVaultName_var = length(envBasedName) > 24 ? '${featureName}-${subFeatureNameForKeyVault}-${environment}' : envBasedName
+		Final name will be decided by appConfiguration.bicep module file as mentioned below,
+	
+		var appConfigurationName = environment != 'prod' ? '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : 			shortLocation}-${environment}' : '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+	
+		Example: dfn-common-configuration-westus2
+		Refer App configuration resource naming rules: 
+		https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.AppConfig.Name/
 
-Example: dfn-kv-westus2
+	o	**Key Vault**:
+		Module file: DFSNotifierResourcesDeployment\modules\configurationstore\keyVault.bicep
 
-Refer App configuration resource naming rules: 
-https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.KeyVault.Name/
+		var envBasedName = environment != 'prod' ? '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}'
+		
+		var keyVaultName_var = length(envBasedName) > 24 ? '${featureName}-${subFeatureNameForKeyVault}-${environment}' : envBasedName
+		
+		Example: dfn-kv-westus2
+		
+		Refer App configuration resource naming rules: 
+		https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.KeyVault.Name/
 
 o	**Log Analytics workspace**:
 
