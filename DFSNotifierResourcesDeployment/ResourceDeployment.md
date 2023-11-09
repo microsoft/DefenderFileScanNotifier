@@ -37,19 +37,19 @@ As part of resource deployments, we have two bicep files as mentioned below
 		Refer App configuration resource naming rules: 
 		https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.KeyVault.Name/
 
-o	**Log Analytics workspace**:
+	o	**Log Analytics workspace**:
 
-Module file: DFSNotifierResourcesDeployment\modules\monitoring\loganalyticsworkspace.bicep
-var logAnalyticsName = environment != 'prod' ? '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}-${environment}' : '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}'
-
-Example: dfn-commonservice-law-westus2
+		Module file: DFSNotifierResourcesDeployment\modules\monitoring\loganalyticsworkspace.bicep
+		var logAnalyticsName = environment != 'prod' ? '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}-${environment}' : '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}'
+		
+		Example: dfn-commonservice-law-westus2
 
 You can update resource names as per your requirements.
 
 Pre-requisites 
 	Install Azure Modules through powershell script (Az modules)
 
-Steps to execute common bicep:
+**Steps to execute common bicep:**
 
 1.	Open Powershell or CMD CLI window and execute azure login
 az login --tenant <tenanted>
@@ -61,22 +61,22 @@ az deployment group create --resource-group "<ResourceGroupName>" --template-fil
 ![image](https://github.com/raiajithkumarr/DefenderFileScanNotifier/assets/22548964/3668860d-b150-43bb-a5f7-582a80c29aee)
 
 
-	**malwarescanner.bicep**
+**malwarescanner.bicep**
 
-Parameter file: DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json
-Bicep File:
-DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\malwarescanner.bicep
+	Parameter file: DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json
 
-Before executing above bicep file we need to update few attributes in “malwarescanner-easus.parameters.json” file as mentioned below.
-appconfigName value should be updated asper resource created at common bicep file For example this value should be dfn-common-configuration-westus2  because it’s created by common bicep file.
-commonLogAnalyticsWorkspace This is also same as appconfigName.
-For example: dfn-commonservice-law-westus2, it’s created by common bicep file.
-kvName This is also same as appconfigName.
-For example: dfn-kv-westus2, it’s created by common bicep file.
+	Bicep File: DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\malwarescanner.bicep
+
+	Before executing above bicep file we need to update few attributes in “malwarescanner-easus.parameters.json” file as mentioned below.
+	appconfigName value should be updated asper resource created at common bicep file For example this value should be dfn-common-configuration-westus2  because it’s created by common bicep file.
+	commonLogAnalyticsWorkspace This is also same as appconfigName.
+	For example: dfn-commonservice-law-westus2, it’s created by common bicep file.
+	kvName This is also same as appconfigName.
+	For example: dfn-kv-westus2, it’s created by common bicep file.
 
 
-Script to execute malwarescanner bicep file
-az deployment group create --resource-group "<ResourceGroupName>" --template-file "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\malwarescanner.bicep" --parameters "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json"
+	Script to execute malwarescanner bicep file
+	az deployment group create --resource-group "<ResourceGroupName>" --template-file "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\malwarescanner.bicep" --parameters "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json"
 
 ![image](https://github.com/raiajithkumarr/DefenderFileScanNotifier/assets/22548964/584e6121-bdb9-47e9-821e-7c59cf4018b6)
  
