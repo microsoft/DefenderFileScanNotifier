@@ -52,11 +52,7 @@ az login --tenant <tenanted>
 
 az deployment group create --resource-group "<ResourceGroupName>" --template-file "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\commonResources\common.bicep" --parameters "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\commonResources\parameters\common-westus2.parameters.json"
 
-
- 
-
-
-
+![image](https://github.com/raiajithkumarr/DefenderFileScanNotifier/assets/22548964/3668860d-b150-43bb-a5f7-582a80c29aee)
 
 	malwarescanner.bicep
 
@@ -75,7 +71,7 @@ For example: dfn-kv-westus2, it’s created by common bicep file.
 Script to execute malwarescanner bicep file
 az deployment group create --resource-group "<ResourceGroupName>" --template-file "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\malwarescanner.bicep" --parameters "<localpath>\DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json"
 
-
+![image](https://github.com/raiajithkumarr/DefenderFileScanNotifier/assets/22548964/584e6121-bdb9-47e9-821e-7c59cf4018b6)
  
 
 And we need to configure Microsoft Defender for Cloud for storage account to send scan result to Event Grid Topic.
