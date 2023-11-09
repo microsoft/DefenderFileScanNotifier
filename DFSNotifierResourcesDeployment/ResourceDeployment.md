@@ -1,17 +1,17 @@
-DefenderFileScanNotifier Resource Deployment Guidance
+								**DefenderFileScanNotifier Resource Deployment Guidance**
 
 As part of resource deployments, we have two bicep files as mentioned below 
 1.	common.bicep
 2.	malwarescanner.bicep
 
-	common bicep file
+**common bicep file**
 Parameter file: DFSNotifierResourcesDeployment\deployabletemplates\commonResources\parameters\common-westus2.parameters.json
 Bicep File:
 DFSNotifierResourcesDeployment\deployabletemplates\commonResources\common.bicep
 •	It will create these resource types: App Configuration, Key Vault & Log Analytics workspace.
 •	Please find naming conventions related parameters to avoid deployment errors
 featureName is important parameter and used by all resource types
-o	App Configuration: In Parameter file please update featureName as per your project requirement or go with any available name.
+o	**App Configuration:** In Parameter file please update featureName as per your project requirement or go with any available name.
 
 Final name will be decided by appConfiguration.bicep module file as mentioned below,
 var appConfigurationName = environment != 'prod' ? '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureName}-configuration-${empty(shortLocation) ? deploymentLocation : shortLocation}'
@@ -20,7 +20,7 @@ Example: dfn-common-configuration-westus2
 Refer App configuration resource naming rules: 
 https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.AppConfig.Name/
 
-o	Key Vault:
+o	**Key Vault**:
 Module file: DFSNotifierResourcesDeployment\modules\configurationstore\keyVault.bicep
 var envBasedName = environment != 'prod' ? '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}-${environment}' : '${featureName}-${subFeatureNameForKeyVault}-${empty(shortLocation) ? deploymentLocation : shortLocation}'
 
@@ -31,7 +31,7 @@ Example: dfn-kv-westus2
 Refer App configuration resource naming rules: 
 https://azure.github.io/PSRule.Rules.Azure/en/rules/Azure.KeyVault.Name/
 
-o	Log Analytics workspace:
+o	**Log Analytics workspace**:
 
 Module file: DFSNotifierResourcesDeployment\modules\monitoring\loganalyticsworkspace.bicep
 var logAnalyticsName = environment != 'prod' ? '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}-${environment}' : '${featureName}-${subFeatureName}${applicationType}-law-${deploymentLocation}'
@@ -54,7 +54,8 @@ az deployment group create --resource-group "<ResourceGroupName>" --template-fil
 
 ![image](https://github.com/raiajithkumarr/DefenderFileScanNotifier/assets/22548964/3668860d-b150-43bb-a5f7-582a80c29aee)
 
-	malwarescanner.bicep
+
+	**malwarescanner.bicep**
 
 Parameter file: DFSNotifierResourcesDeployment\deployabletemplates\malwarescanner\parameters\malwarescanner-easus.parameters.json
 Bicep File:
